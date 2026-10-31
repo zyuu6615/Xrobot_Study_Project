@@ -1,0 +1,43 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/Debug/HAL_LED.elf",
+            "name": "Debug with ST-Link",
+            "request": "launch",
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none",
+            "servertype": "stlink"
+        },
+        {
+            "name": "Debug with DAP-Link",
+            "cwd": "${workspaceFolder}",
+            // 与 CMakePresets.json 中 Debug 预设的 binaryDir (build/Debug) 保持一致
+            "executable": "${workspaceFolder}/build/Debug/HAL_LED.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            // arm-none-eabi-gdb 不在 PATH 中，必须给出完整路径
+            // (随 STM32Cube 工具链一起安装；升级工具链后需同步修改此路径)
+            "gdbPath": "C:/Users/yuu/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gdb.exe",
+            // openocd 虽然已在 PATH 中，这里显式指定更稳妥
+            "serverpath": "C:/OpenOCD/xpack-openocd-0.12.0-7/bin/openocd.exe",
+            // 顺序：先 interface 再 target
+            "configFiles": [
+                "C:/OpenOCD/xpack-openocd-0.12.0-7/openocd/scripts/interface/cmsis-dap.cfg",
+                "C:/OpenOCD/xpack-openocd-0.12.0-7/openocd/scripts/target/stm32f1x.cfg"
+            ],
+            // 外设寄存器视图 (STM32F103)，来自 stm32f1xx_dfp 包
+            "svdFile": "C:/Users/yuu/AppData/Local/stm32cube/packs/STMicroelectronics/stm32f1xx_dfp/1.2.0/SVD/STM32F103.svd",
+            "runToEntryPoint": "main",
+            // 调试前先重新编译，避免烧录到旧的 elf
+            "preLaunchTask": "Build Debug",
+            "showDevDebugOutput": "none"
+        }
+    ]
+}

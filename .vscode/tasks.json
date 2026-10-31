@@ -1,0 +1,32 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            // 与 launch.json 中 "preLaunchTask" 的名称必须完全一致
+            "label": "Build Debug",
+            "type": "shell",
+            // 与 settings.json 中的 "cmake.cmakePath": "cube-cmake" 保持一致
+            "command": "cube-cmake",
+            "args": [
+                "--build",
+                "--preset",
+                "Debug"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "presentation": {
+                "reveal": "silent",
+                "clear": true
+            },
+            "detail": "cube-cmake --build --preset Debug"
+        }
+    ]
+}
